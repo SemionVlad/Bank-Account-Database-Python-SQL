@@ -1,7 +1,3 @@
-# GitHub Actions workflow
-# Purpose: build an SQLite DB (Bank.db) from your Python scripts, place it at the repo root,
-# create a single Markdown report (Bank.md) with an ER diagram + tables, and commit changes.
-
 name: Build & Commit Bank.db
 
 on:
@@ -46,12 +42,13 @@ jobs:
             echo "No DB file found after scripts ran!" && ls -la && exit 1
           fi
 
+      # Build a single-page Markdown view: Bank.md (Mermaid ER + tables)
       - name: Export Bank.md (ER diagram + tables)
         run: |
           sudo apt-get update -y
           sudo apt-get install -y sqlite3
 
-          # Write the header + Mermaid ER diagram safely (no here-doc)
+          # Header + Mermaid ER (use printf to avoid YAML/heredoc pitfalls)
           printf '%s\n' \
             '# Bank — Logical View' '' '## ER Diagram' '```mermaid' \
             'erDiagram' \
@@ -80,7 +77,6 @@ jobs:
             '    TEXT    date' \
             '  }' \
             '```' '' '## Tables' > Bank.md
-
           { echo ""; echo "### Customers";
             sqlite3 -markdown Bank.db -cmd ".headers on" "SELECT * FROM Customers;";
           } >> Bank.md
@@ -98,16 +94,40 @@ jobs:
               "SELECT * FROM Transactions ORDER BY trans_id;";
           } >> Bank.md
 
-      - name: Commit DB and report if changed
+      # Build README.md that embeds Bank.md content (so ER+tables appear on repo home)
+      - name: Build README.md (intro + embed Bank.md)
+        run: |
+          # Write the intro section WITHOUT heredoc (avoids indentation issues)
+          printf '%s\n' \
+            '# Bank Account Database (Python + SQLite)' '' \
+            'This project builds a simple **bank** database in SQLite using Python,' \
+            'seeds sample data, and publishes both the DB file and a readable Markdown view.' '' \
+            '- **Database file**: [Bank.db](./Bank.db)' \
+            '- The full logical view (ER diagram + tables) is embedded below.' '' \
+            '## Quick start (local)' \
+            '```bash' \
+            'python createDB.py      # create tables' \
+            'python InsertData.py    # insert sample data' \
+            'python Queries.py       # print reports to the console' \
+            '```' '' \
+            '> Requires Python 3.x. No third-party packages are needed (uses the stdlib `sqlite3`).' \
+            '' \
+            '---' \
+          > README.md
+
+          # Append the full Bank.md so the ER+tables appear in README.md
+          cat Bank.md >> README.md
+          
+      - name: Commit DB and docs if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin "$(git branch --show-current)" || true
 
-          git add Bank.db Bank.md
+          git add Bank.db Bank.md README.md
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Build: update Bank.db and Bank.md (ER + tables) via GitHub Actions"
+            git commit -m "Build: update Bank.db and embed ER+tables in README.md"
             git push origin "$(git branch --show-current)"
           fi
