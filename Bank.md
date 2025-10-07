@@ -10,7 +10,7 @@ erDiagram
     INTEGER cust_id PK
     TEXT    name
     TEXT    address
-    TEXT    email UNIQUE
+    TEXT    email
   }
 
   Accounts {
