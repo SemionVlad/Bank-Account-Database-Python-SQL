@@ -1,3 +1,7 @@
+# GitHub Actions workflow
+# Purpose: build an SQLite DB (Bank.db) from your Python scripts, place it at the repo root,
+# create a single Markdown report (Bank.md) with an ER diagram + tables, and commit changes.
+
 name: Build & Commit Bank.db
 
 on:
