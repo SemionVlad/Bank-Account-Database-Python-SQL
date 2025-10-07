@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# macOS
+.DS_Store
+
+# Default: ignore all .db files
+*.db
+
+# Exception: keep the root-level DB built by the workflow
+!Bank.db
