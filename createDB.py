@@ -1,9 +1,13 @@
-# createDB.py
-# Creates the SQLite schema for a small bank DB using execute() only.
+"""
+createDB.py
+- Opens/creates 'bank.db' and defines the schema.
+- Tables: Customers, Accounts, Transactions.
+- Keeps the SQL simple (sqlite3 stdlib, execute calls).
+"""
 
 import sqlite3
 
-# Connect to local SQLite DB file in the working directory
+# Connect to the SQLite DB file (created if not exists)
 conn = sqlite3.connect('bank.db')
 
 # Enforce FOREIGN KEY constraints for this connection
@@ -11,9 +15,9 @@ conn.execute("PRAGMA foreign_keys = ON;")
 
 cursor = conn.cursor()
 
-# ---------------------------
-# Customers
-# ---------------------------
+# ------------------------------------------------------------------
+# Customers - Connect to the SQLite DB file (created if not exists)
+# ------------------------------------------------------------------
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS Customers (
     cust_id INTEGER PRIMARY KEY,
@@ -23,9 +27,10 @@ CREATE TABLE IF NOT EXISTS Customers (
 );
 """)
 
-# ---------------------------
-# Accounts
-# ---------------------------
+# ------------------------------------------------------------------
+# Accounts - Connect to the SQLite DB file (created if not exists)
+# (Minimal checks to demonstrate constraints.)
+# ------------------------------------------------------------------
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS Accounts (
     acc_id   INTEGER PRIMARY KEY,
@@ -36,10 +41,10 @@ CREATE TABLE IF NOT EXISTS Accounts (
 );
 """)
 
-# ---------------------------
-# Transactions
-# ---------------------------
-# Note: store dates as TEXT in ISO format 'YYYY-MM-DD' (common practice in SQLite)
+# ------------------------------------------------------------------
+# Transactions - deposits/withdrawals for an account.
+# Store dates as ISO text 'YYYY-MM-DD' (common for SQLite).
+# ------------------------------------------------------------------
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS Transactions (
     trans_id   INTEGER PRIMARY KEY,
