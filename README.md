@@ -16,6 +16,30 @@ python Queries.py       # print reports to the console
 > Requires Python 3.x. No third-party packages are needed (uses the stdlib `sqlite3`).
 
 ---
+
+## Project structure
+```text
+.
+├── Bank.db                      # generated SQLite database (built by CI)
+├── Bank.md                      # ER diagram + tables (built by CI)
+├── createDB.py                  # creates schema (tables)
+├── InsertData.py                # inserts sample data
+├── Queries.py                   # simple SELECT queries (prints to console)
+└── .github/
+    └── workflows/
+        └── build-and-commit-db.yml   # CI: builds Bank.db & Bank.md and updates README.md
+```
+
+## Execution flow
+```mermaid
+flowchart TD
+    A[createDB.py<br/>create tables] --> B[InsertData.py<br/>insert rows]
+    A -->|creates| D[(bank.db)]
+    B -->|updates| D[(bank.db)]
+    D -->|export via CI| E[Bank.md<br/>ER + tables]
+    E -->|embedded| R[README.md]
+    C[Queries.py<br/>print reports] --> D
+```
 # Bank — Logical View
 
 ## ER Diagram
