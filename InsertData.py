@@ -1,5 +1,9 @@
-# InsertData.py
-# Seeds sample data into an existing SQLite bank.db using execute() only.
+"""
+InsertData.py
+- Inserts sample rows into Customers, Accounts, and Transactions.
+- Assumes 'bank.db' + tables already exist (created by createDB.py).
+- Uses plain 'execute' with multi-row INSERT blocks for readability.
+"""
 
 import sqlite3
 
