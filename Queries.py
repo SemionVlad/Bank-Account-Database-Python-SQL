@@ -1,3 +1,10 @@
+"""
+Queries.py
+- Simple reporting helpers that print table contents to stdout.
+- Each function opens its own connection to keep usage explicit and simple.
+- SQL kept straightforward (SELECTs with JOIN where needed).
+"""
+
 import sqlite3
 
 def show_customers():
