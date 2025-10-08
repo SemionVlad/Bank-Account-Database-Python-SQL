@@ -1,3 +1,11 @@
+[![Build & Commit Bank.db](https://github.com/SemionVlad/Bank-Account-Database-Python-SQL/actions/workflows/build-and-commit-db.yml/badge.svg)](https://github.com/SemionVlad/Bank-Account-Database-Python-SQL/actions)
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-queries-blueviolet)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI-2088FF?logo=githubactions&logoColor=white)
+![Database](https://img.shields.io/badge/Database-schema%20%26%20data-4CAF50)
+![Learning Project](https://img.shields.io/badge/Learning-Project-FFB000)
+
 # Bank Account Database (Python + SQLite)
 
 This project builds a simple **bank** database in SQLite using Python,
